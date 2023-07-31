@@ -150,7 +150,23 @@ const treeFactory = (array) => {
                         }
                     }
                 } else if (currentNode.left && currentNode.right) {
-                    return "has 2 children";
+                    let successorNode = currentNode.right;
+                    let previousSuccessor;
+
+                    if (!successorNode.left) {
+                        currentNode.root = successorNode.root;
+                        currentNode.right = successorNode.right;
+                        return prettyPrint(level0Root);
+
+                    } else {
+                        while (successorNode.left != null) {
+                            previousSuccessor = successorNode;
+                            successorNode = successorNode.left;
+                        }
+                        currentNode.root = successorNode.root;
+                        previousSuccessor.left = null;
+                        return prettyPrint(level0Root);
+                    }
                 } else {
                     let childNode;
                     currentNode.left ? childNode = currentNode.left : childNode = currentNode.right;
