@@ -1,8 +1,6 @@
 const treeFactory = (array) => {
 
-    let noDuplicates = removeDuplicates(array);
-    let sortedArray = mergeSort(noDuplicates);
-    let level0Root = buildTree(sortedArray);
+    let level0Root = buildTree(mergeSort(removeDuplicates(array)));
 
     const prettyPrint = (node, prefix = "", isLeft = true) => {
         if (node === null) {
@@ -43,8 +41,8 @@ const treeFactory = (array) => {
         } else {
             let lastElementIndex = array.length - 1;
             let midpointIndex = Math.floor((lastElementIndex)/2);
-            let sortLeft = mergeSort(copy.slice(0, midpointIndex+1)); // first final val = 5
-            let sortRight = mergeSort(copy.slice((midpointIndex+1), lastElementIndex+1)); // first final val = 2
+            let sortLeft = mergeSort(copy.slice(0, midpointIndex+1)); 
+            let sortRight = mergeSort(copy.slice((midpointIndex+1), lastElementIndex+1)); 
     
             if (sortRight != undefined) {            
                 let combinedArray = merge(sortLeft, sortRight, sortLeft.length, sortRight.length);
@@ -110,7 +108,6 @@ const treeFactory = (array) => {
     }
 
     const insertNode = (value) => {
-        
         let traversedNode = level0Root;
         while (traversedNode) {
             if (value === traversedNode.root) {
@@ -133,7 +130,50 @@ const treeFactory = (array) => {
         };
     };
     
-    const deleteNode = () => {};
+    const deleteNode = (value) => {
+        let currentNode = level0Root;
+        let previousNode;
+        while (currentNode) {
+            if (value === currentNode.root) {
+                if (!currentNode.left && !currentNode.right) {
+                    if (!previousNode) {
+                        level0Root = null;
+                        prettyPrint(level0Root);
+                        return "this was the last node in the tree.";
+                    } else {
+                        if (previousNode.left === currentNode) {
+                            previousNode.left = null;
+                            return prettyPrint(level0Root);
+                        } else {
+                            previousNode.right = null;
+                            return prettyPrint(level0Root);
+                        }
+                    }
+                } else if (currentNode.left && currentNode.right) {
+                    return "has 2 children";
+                } else {
+                    let childNode;
+                    currentNode.left ? childNode = currentNode.left : childNode = currentNode.right;
+                    if (!previousNode) {
+                        level0Root.root = childNode.root;
+                        level0Root.left = childNode.left;
+                        level0Root.right = childNode.right;
+                        return prettyPrint(level0Root);
+                    } else {
+                        previousNode.left === currentNode ? previousNode.left = childNode : previousNode.right = childNode;
+                        return prettyPrint(level0Root);                 
+                    }
+                }
+            } else if (value < currentNode.root) {
+                previousNode = currentNode;
+                currentNode = currentNode.left;
+            } else {
+                previousNode = currentNode;
+                currentNode = currentNode.right;
+            }
+        }
+        return "The value you entered is not recorded in this binary search tree and thus cannot be deleted.";
+    };
     
     const findNode = (value) => {
         let traversedNode = level0Root;
@@ -149,6 +189,10 @@ const treeFactory = (array) => {
         return "The value you entered is not recorded in this binary search tree.";
     };
     
+    const getRoot = () => {
+        return level0Root;
+    };
+
     const levelOrder = () => {};
     
     const inorder = () => {};
@@ -167,8 +211,7 @@ const treeFactory = (array) => {
 
     prettyPrint(level0Root);
 
-    return {level0Root, insertNode, deleteNode, findNode, levelOrder, inorder, preorder, postorder, returnHeight, returnDepth, isBalanced, rebalance};
-
+    return {getRoot, insertNode, deleteNode, findNode, levelOrder, inorder, preorder, postorder, returnHeight, returnDepth, isBalanced, rebalance, prettyPrint};
 };
 
 let tree = treeFactory([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
