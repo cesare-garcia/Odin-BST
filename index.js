@@ -209,21 +209,26 @@ const treeFactory = (array) => {
         return level0Root;
     };
 
-    // const loHelper = (node) => {
-    //     if (node.root === null) return;
-    //     let queue = [];
-    //     queue.push(node);
+    const loHelper = (currentNode) => {
+        if (currentNode.root === null) return;
+        let queue = [];
+        queue.push(currentNode);
 
-    //     while (queue.length !== 0) {
-    //         let current = queue.shift();
-    //         console.log(current.root);
-    //         if (current.left !== null) queue.push(current.left);
-    //         if (current.right !== null) queue.push(current.right);   
-    //     }
-    // };
+        while(queue.length !== 0) {
+            let current = queue.shift();
+            console.log(current);
+            if (current.left !== null) {
+                queue.push(current.left);
+            }
+            if (current.right !== null) {
+                queue.push(current.right);
+            }
+        };
+    };
 
-    const levelOrder = (loHelper) => {
-        
+    const levelOrder = (funcParam) => {
+        let traversedNode = level0Root;
+        loHelper(traversedNode);
     };
 
 
