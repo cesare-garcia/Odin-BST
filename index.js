@@ -222,17 +222,52 @@ const treeFactory = (array) => {
     //     }
     // };
 
-    const levelOrder = (helperFunction) => {
+    const levelOrder = (loHelper) => {
         
     };
 
-    const inorder = () => {};
+
+    const preHelper = (currentNode) => {
+        if (currentNode === null) return;
+        console.log(currentNode.root);
+        preHelper(currentNode.left);
+        preHelper(currentNode.right);
+    };
+
+    const preorder = (funcParam) => {
+        let traversedNode = level0Root;
+        preHelper(traversedNode);
+    };
+
+    const inHelper = (currentNode) => {
+        if (currentNode === null) return;
+        
+        inHelper(currentNode.left);
+        console.log(currentNode.root);
+        inHelper(currentNode.right);
+    };
+
+    const inorder = (funcParam) => {
+        let traversedNode = level0Root;
+        inHelper(traversedNode);
+    };
+        
+    const postHelper = (currentNode) => {
+        if (currentNode === null) return;
+
+        postHelper(currentNode.left);
+        postHelper(currentNode.right);
+        console.log(currentNode.root);
+    };
+
+    const postorder = (funcParam) => {
+        let traversedNode = level0Root;
+        postHelper(traversedNode);
+    };
     
-    const preorder = () => {};
-    
-    const postorder = () => {};
-    
-    const returnHeight = (node) => {};
+    const returnHeight = (nodeValue) => {
+      
+    };
     
     const returnDepth = (nodeValue) => {
         let currentNode = level0Root;
