@@ -209,17 +209,47 @@ const treeFactory = (array) => {
         return level0Root;
     };
 
-    const levelOrder = () => {};
-    
+    // const loHelper = (node) => {
+    //     if (node.root === null) return;
+    //     let queue = [];
+    //     queue.push(node);
+
+    //     while (queue.length !== 0) {
+    //         let current = queue.shift();
+    //         console.log(current.root);
+    //         if (current.left !== null) queue.push(current.left);
+    //         if (current.right !== null) queue.push(current.right);   
+    //     }
+    // };
+
+    const levelOrder = (helperFunction) => {
+        
+    };
+
     const inorder = () => {};
     
     const preorder = () => {};
     
     const postorder = () => {};
     
-    const returnHeight = () => {};
+    const returnHeight = (node) => {};
     
-    const returnDepth = () => {};
+    const returnDepth = (nodeValue) => {
+        let currentNode = level0Root;
+        let edges = 0;
+        while (currentNode) {
+            if (nodeValue < currentNode.root) {
+                currentNode = currentNode.left;
+                edges++;
+            } else if (nodeValue > currentNode.root) {
+                currentNode = currentNode.right;
+                edges++;
+            } else {
+                return `Depth of node = ${edges}`;
+            }
+        };
+        return "The node you are looking for does not exist in this tree.";
+    };
     
     const isBalanced = () => {};
     
