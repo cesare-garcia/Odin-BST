@@ -262,25 +262,21 @@ const treeFactory = (array) => {
         }
     };
     
-    const heightHelper = (currentNode, edges) => {
-        if (currentNode === null) {
-            edges++;
-            return edges;
-        } 
+    const heightHelper = (node) => {
+        if (node === null) return -1;
 
-        heightHelper(currentNode.left);
-        
-        heightHelper(currentNode.right);
+        let a = heightHelper(node.left);
+        let b = heightHelper(node.right);
 
+        return Math.max(a,b) + 1;
     };
 
     const returnHeight = (nodeValue) => {
-        let currentNode = level0Root;
-        let edges = 0;
-
-
-
-
+        let traversedNode = level0Root;
+        while (nodeValue !== traversedNode.root) {
+            (nodeValue < traversedNode.root) ? traversedNode = traversedNode.left : traversedNode = traversedNode.right;
+        }
+        return heightHelper(traversedNode);
     };
     
     const returnDepth = (nodeValue) => {
@@ -297,7 +293,7 @@ const treeFactory = (array) => {
                 return `Depth of node = ${edges}`;
             }
         };
-        return "The node you are looking for does not exist in this tree.";
+        return "The node value you are looking for does not exist in this tree.";
     };
     
     const isBalanced = () => {};
