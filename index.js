@@ -209,26 +209,24 @@ const treeFactory = (array) => {
         return level0Root;
     };
 
-    const loHelper = (currentNode) => {
-        if (currentNode.root === null) return;
-        let queue = [];
-        queue.push(currentNode);
+    const levelOrder = (node = level0Root, callback) => {
+        if (node.root === null) return;
+        let queue = [node];
+        let results = [];
 
         while(queue.length !== 0) {
-            let current = queue.shift();
-            console.log(current);
-            if (current.left !== null) {
-                queue.push(current.left);
+            let level = [];
+            let sizeOfLevel = queue.length;
+            for (let i = 0; i < sizeOfLevel; i++) {
+                let current = queue.shift();
+                level.push(current.root);
+                if (current.left !== null) queue.push(current.left);
+                if (current.right !== null) queue.push(current.right);
+                if (callback) callback(current);
             }
-            if (current.right !== null) {
-                queue.push(current.right);
-            }
+            results.push(level);
         };
-    };
-
-    const levelOrder = (funcParam) => {
-        let traversedNode = level0Root;
-        loHelper(traversedNode);
+        if (!callback) return results;
     };
 
 
@@ -254,7 +252,7 @@ const treeFactory = (array) => {
 
     const inorder = (funcParam) => {
         let traversedNode = level0Root;
-        inHelper(traversedNode);
+        return inHelper(traversedNode);
     };
         
     const postHelper = (currentNode) => {
@@ -270,8 +268,25 @@ const treeFactory = (array) => {
         postHelper(traversedNode);
     };
     
+    const heightHelper = (currentNode, edges) => {
+        if (currentNode === null) {
+            edges++;
+            return edges;
+        } 
+
+        heightHelper(currentNode.left);
+        
+        heightHelper(currentNode.right);
+
+    };
+
     const returnHeight = (nodeValue) => {
-      
+        let currentNode = level0Root;
+        let edges = 0;
+
+
+
+
     };
     
     const returnDepth = (nodeValue) => {
