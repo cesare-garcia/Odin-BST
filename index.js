@@ -231,36 +231,35 @@ const treeFactory = (array) => {
 
     const preorder = (node = level0Root, callback) => {
         if (node === null) return "";
-        let results = [node.root];
-        let newArray = [];
-        if (callback) callback(node);
-        if (!callback) return newArray = results.concat(preorder(node.left), preorder(node.right)).filter(element => element !== "");
+        if (callback) {
+            callback(node);
+            preorder(node.left, callback);
+            preorder(node.right, callback);
+        } else {
+            return [node.root].concat(preorder(node.left), preorder(node.right)).filter(element => element !== "");
+        }
     };
 
-    const inHelper = (currentNode) => {
-        if (currentNode === null) return;
+    const inorder = (node = level0Root, callback) => {
+        if (node === null) return "";
+        if (callback) {
+            inorder(node.left, callback);
+            callback(node);
+            inorder(node.right, callback);
+        } else {
+            return [].concat(inorder(node.left, callback), node.root, inorder(node.right, callback)).filter(element => element !== "");
+        }
+    };
         
-        inHelper(currentNode.left);
-        console.log(currentNode.root);
-        inHelper(currentNode.right);
-    };
-
-    const inorder = (funcParam) => {
-        let traversedNode = level0Root;
-        return inHelper(traversedNode);
-    };
-        
-    const postHelper = (currentNode) => {
-        if (currentNode === null) return;
-
-        postHelper(currentNode.left);
-        postHelper(currentNode.right);
-        console.log(currentNode.root);
-    };
-
-    const postorder = (funcParam) => {
-        let traversedNode = level0Root;
-        postHelper(traversedNode);
+    const postorder = (node = level0Root, callback) => {
+        if (node === null) return "";
+        if (callback) {
+            postorder(node.left, callback);
+            postorder(node.right, callback);
+            callback(node);
+        } else {
+            return [].concat(postorder(node.left, callback), postorder(node.right, callback), node.root).filter(element => element !== "");
+        }
     };
     
     const heightHelper = (currentNode, edges) => {
