@@ -229,17 +229,12 @@ const treeFactory = (array) => {
         if (!callback) return results;
     };
 
-
-    const preHelper = (currentNode) => {
-        if (currentNode === null) return;
-        console.log(currentNode.root);
-        preHelper(currentNode.left);
-        preHelper(currentNode.right);
-    };
-
-    const preorder = (funcParam) => {
-        let traversedNode = level0Root;
-        preHelper(traversedNode);
+    const preorder = (node = level0Root, callback) => {
+        if (node === null) return "";
+        let results = [node.root];
+        let newArray = [];
+        if (callback) callback(node);
+        if (!callback) return newArray = results.concat(preorder(node.left), preorder(node.right)).filter(element => element !== "");
     };
 
     const inHelper = (currentNode) => {
