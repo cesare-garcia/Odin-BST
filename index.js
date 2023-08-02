@@ -308,7 +308,7 @@ const treeFactory = (array) => {
     const isBalanced = () => {};
     
     const rebalance = () => {
-        let newSortedArray = tree.inorder();
+        let newSortedArray = inorder();
         level0Root = buildTree(newSortedArray);
         return prettyPrint(level0Root);
     };
@@ -318,5 +318,37 @@ const treeFactory = (array) => {
     return {getRoot, insertNode, deleteNode, findNode, levelOrder, inorder, preorder, postorder, returnHeight, returnDepth, isBalanced, rebalance};
 };
 
-// let tree = treeFactory([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
-let tree = treeFactory([1, 3, 4, 5, 7, 8, 9, 23, 34, 35, 36, 37, 38, 39, 67, 324, 6345]);
+function newArrayFactory() {
+    let numberOfElements = Math.floor(Math.random() * 50);
+    let array = [];
+    for (let i = 0; i < numberOfElements; i++) {
+        let addedElement = Math.floor(Math.random() * 100);
+        array.push(addedElement);
+    }
+    return array;
+}
+
+let tree = treeFactory(newArrayFactory());
+
+// is balanced
+
+console.log(tree.levelOrder());
+console.log(tree.preorder());
+console.log(tree.inorder());
+console.log(tree.postorder());
+
+for (let i = 0; i < 5; i++) {
+    tree.insertNode(Math.floor(Math.random() * 100));
+    console.log("");
+}
+
+// is balanced
+
+tree.rebalance();
+
+// is balanced
+
+console.log(tree.levelOrder());
+console.log(tree.preorder());
+console.log(tree.inorder());
+console.log(tree.postorder());
