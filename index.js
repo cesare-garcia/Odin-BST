@@ -1,5 +1,4 @@
 const treeFactory = (array) => {
-
     let level0Root = buildTree(mergeSort(removeDuplicates(array)));
 
     const prettyPrint = (node, prefix = "", isLeft = true) => {
@@ -91,19 +90,29 @@ const treeFactory = (array) => {
     };
 
     function buildTree(array) {
-        let copy = array.slice();
-        if (copy.length == 2) {
-            let root = nodeFactory(copy[1]);
-            root.left = nodeFactory(copy[0]);
+        if (array.length === 1) {
+            let root = nodeFactory(array[0]);
+            return root;
+        } else if (array.length === 2) {
+            let root = nodeFactory(array[0]);
+            root.right = nodeFactory(array[1]);
             return root;
         } else {
-            let midpointIndex = Math.floor(copy.length/2);
-            let root = nodeFactory(copy[midpointIndex]);
-            let leftHalf = copy.slice(0, midpointIndex);
-            let rightHalf = copy.slice(midpointIndex+1, copy.length);
-            root.left = buildTree(leftHalf);
-            root.right = buildTree(rightHalf);
-            return root;    
+            if (array.length % 2 === 0) {
+                let midpoint = (array.length / 2) - 1; 
+                let root = nodeFactory(array[midpoint]);
+                root.left = buildTree(array.slice(0, midpoint));
+                root.right = buildTree(array.slice(midpoint+1));
+                return root;
+
+            } else {
+                let midpoint = Math.ceil((array.length/2)) - 1;
+                let root = nodeFactory(array[midpoint]);
+                root.left = buildTree(array.slice(0,midpoint));
+                root.right = buildTree(array.slice(midpoint+1));
+                return root;
+
+            }
         }
     }
 
@@ -298,11 +307,15 @@ const treeFactory = (array) => {
     
     const isBalanced = () => {};
     
-    const rebalance = () => {};
+    const rebalance = () => {
+        let newSortedArray = tree.inorder();
+        level0Root = buildTree(newSortedArray);
+    };
 
     prettyPrint(level0Root);
 
     return {getRoot, insertNode, deleteNode, findNode, levelOrder, inorder, preorder, postorder, returnHeight, returnDepth, isBalanced, rebalance, prettyPrint};
 };
 
-let tree = treeFactory([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
+// let tree = treeFactory([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
+let tree = treeFactory([1, 3, 4, 5, 7, 8, 9, 23, 34, 35, 36, 37, 38, 39, 67, 324, 6345]);
