@@ -305,7 +305,15 @@ const treeFactory = (array) => {
         return "The node value you are looking for does not exist in this tree.";
     };
     
-    const isBalanced = () => {};
+    const isBalanced = (node = level0Root) => {
+        if (node === null) return true;
+        let leftHeight = heightHelper(node.left);
+        let rightHeight = heightHelper(node.right);
+        let difference = Math.abs(leftHeight - rightHeight);
+    
+        if (difference > 1) return false;
+        return isBalanced(node.left) && isBalanced(node.right);
+    };
     
     const rebalance = () => {
         let newSortedArray = inorder();
@@ -326,29 +334,40 @@ function newArrayFactory() {
         array.push(addedElement);
     }
     return array;
-}
+};
 
 let tree = treeFactory(newArrayFactory());
-
-// is balanced
-
+console.log(tree.isBalanced());
 console.log(tree.levelOrder());
 console.log(tree.preorder());
-console.log(tree.inorder());
 console.log(tree.postorder());
-
-for (let i = 0; i < 5; i++) {
+console.log(tree.inorder());
+for (let i = 0; i < 21; i++) {
     tree.insertNode(Math.floor(Math.random() * 100));
     console.log("");
 }
 
-// is balanced
+let balanceStatus = tree.isBalanced();
+console.log(balanceStatus);
 
-tree.rebalance();
+if (!balanceStatus) {
+    console.log("not balanced");
+    tree.rebalance();
+    let newBalanceStatus = tree.isBalanced();
+    if (newBalanceStatus) {
+        console.log("now its balanced");
+        console.log(tree.levelOrder());
+        console.log(tree.preorder());
+        console.log(tree.postorder());
+        console.log(tree.inorder());
+    } else {
+        console.log("tree still not balanced, there is an error in your code"); 
+    }
+} else {
+    console.log("is balanced");
+    console.log(tree.levelOrder());
+    console.log(tree.preorder());
+    console.log(tree.postorder());    
+    console.log(tree.inorder());
+}
 
-// is balanced
-
-console.log(tree.levelOrder());
-console.log(tree.preorder());
-console.log(tree.inorder());
-console.log(tree.postorder());
